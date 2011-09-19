@@ -142,50 +142,45 @@ features than the original goal of branch-level access control.</p>
 
 <h5>one user, many keys</h5>
 
-<p>I have a laptop and a desktop I need to access the server from.  I have
-different private keys on them, but as far as gitolite is concerned both of
-them should be treated as "sitaram".  How does this work?</p>
+<p>If you have a user who has more than one pubkey (like from different machines)
+the simplest way to deal with it is to add subdirectories and add keys there.
+For example, I might have these files in <code>keydir/</code>:</p>
 
-<p>The way it works is that you copy one pubkey as "sitaram@laptop.pub" and the
-other as "sitaram@desktop.pub".  That is, if there is an "@" in the filename,
-the part before the "@" is the username, so gitolite knows these two keys
-belong to the same person.  The part after the "@" can be anything you like,
-of course; gitolite doesn't care.</p>
+<pre><code>sitaram.pub
+home/sitaram.pub
+laptop/sitaram.pub
+</code></pre>
 
-<p>Note that you don't say "sitaram@laptop" and so on in the <strong>config</strong> file --
-as far as the config file is concerned there's just <strong>one</strong> user called
-"sitaram" -- so you only say "sitaram" there.</p>
+<p>This should suit you fine.  Please stop reading further and move on to the
+next section.</p>
 
-<p>I think this is easier to maintain if you have to delete or change one of
-those keys.</p>
+<p><font color="gray"></p>
 
-<p>But wait!  Since <code>sitaramc@gmail.com</code> is also a valid <em>gitolite</em> username, we
-need to distinguish between <code>sitaramc@gmail.com.pub</code> and
-<code>sitaramc@desktop.pub</code>.  We do that by requiring that the multi-key suffix you
-use (like "desktop" and "laptop") should not have a <code>"."</code> in it.  If it does,
-it looks like an email address.  The following table lists sample pubkey
-filenames and the corresponding derived usernames (which is what goes into the
-<code>conf/gitolite.conf</code> file):</p>
+<p>The older method will continue to work, simply because I prefer that method.
+But I am not going to document it except for the example below, nor am I going
+to support it in terms of questions.  Sorry.  Apparently it was too complex
+even for people whose opinion I respect to understand, which means it was ill
+thought out.  Anyway I should have obsoleted it as soon as e0fe73a was pushed.</p>
 
-<ul>
-<li><p>old style multikeys; not mistaken for emails because there is no "." in
-hostname part</p>
+<p>Anyway, here's <em>all</em> the documentation for it -- an extended example with
+sample pubkey filenames and the corresponding derived usernames:</p>
 
-<pre><code>sitaramc.pub                            sitaramc
-sitaramc@laptop.pub                     sitaramc
-sitaramc@desktop.pub                    sitaramc
-</code></pre></li>
-<li><p>new style, email keys; there is a "." in hostname part; so it's an email
-address</p>
+<pre><code>    # plain username, no multikey
+    sitaramc.pub                            sitaramc
 
-<pre><code>sitaramc@gmail.com.pub                  sitaramc@gmail.com
-</code></pre></li>
-<li><p>multikeys <em>with</em> email address</p>
+    # plain username, with multikeys
+    sitaramc@laptop.pub                     sitaramc
+    sitaramc@desktop.pub                    sitaramc
 
-<pre><code>sitaramc@gmail.com@laptop.pub           sitaramc@gmail.com
-sitaramc@gmail.com@desktop.pub          sitaramc@gmail.com
-</code></pre></li>
-</ul>
+    # email address as username, no multikey
+    sitaramc@gmail.com.pub                  sitaramc@gmail.com
+
+    # email address as username, with multikeys
+    sitaramc@gmail.com@laptop.pub           sitaramc@gmail.com
+    sitaramc@gmail.com@desktop.pub          sitaramc@gmail.com
+</code></pre>
+
+<p></font></p>
 
 <p><a name="_security_access_control_and_auditing"></a></p>
 
