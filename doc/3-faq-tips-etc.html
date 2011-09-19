@@ -147,9 +147,10 @@ different private keys on them, but as far as gitolite is concerned both of
 them should be treated as "sitaram".  How does this work?</p>
 
 <p>The way it works is that you copy one pubkey as "sitaram@laptop.pub" and the
-other as "sitaram@desktop.pub".  The part before the "@" is the username, so
-gitolite knows these two keys belong to the same person.  The part after the
-"@" can be anything you like, of course; gitolite doesn't care.</p>
+other as "sitaram@desktop.pub".  That is, if there is an "@" in the filename,
+the part before the "@" is the username, so gitolite knows these two keys
+belong to the same person.  The part after the "@" can be anything you like,
+of course; gitolite doesn't care.</p>
 
 <p>Note that you don't say "sitaram@laptop" and so on in the <strong>config</strong> file --
 as far as the config file is concerned there's just <strong>one</strong> user called
@@ -158,12 +159,12 @@ as far as the config file is concerned there's just <strong>one</strong> user ca
 <p>I think this is easier to maintain if you have to delete or change one of
 those keys.</p>
 
-<p>However, now that <code>sitaramc@gmail.com</code> is also a valid username, we need to
-distinguish between <code>sitaramc@gmail.com.pub</code> and <code>sitaramc@desktop.pub</code>.  We
-do that by requiring that the multi-key suffix you use (like "desktop" and
-"laptop") should not have a <code>"."</code> in it.  If it does, it looks like an email
-address.  The following table lists sample pubkey filenames and the
-corresponding derived usernames (which is what goes into the
+<p>But wait!  Since <code>sitaramc@gmail.com</code> is also a valid <em>gitolite</em> username, we
+need to distinguish between <code>sitaramc@gmail.com.pub</code> and
+<code>sitaramc@desktop.pub</code>.  We do that by requiring that the multi-key suffix you
+use (like "desktop" and "laptop") should not have a <code>"."</code> in it.  If it does,
+it looks like an email address.  The following table lists sample pubkey
+filenames and the corresponding derived usernames (which is what goes into the
 <code>conf/gitolite.conf</code> file):</p>
 
 <ul>
