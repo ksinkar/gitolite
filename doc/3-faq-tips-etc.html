@@ -1,3 +1,4 @@
+/tmp/tmp.Z2xpaJsJhB/1 /tmp/tmp.Z2xpaJsJhB/2 differ: byte 2484, line 35
 <p><head><style>
     body        { margin-left:  40px;   font-size:  0.9em;  font-family: sans-serif; max-width: 800px; }
     h1          { background: #ffb; margin-left: -30px;   border-bottom: 5px  solid #ccc; }
@@ -60,6 +61,10 @@
 <li><a href="#_svnserve">svnserve</a></li>
 </ul></li>
 </ul></li>
+</ul></li>
+<li><a href="#_odds_and_ends">odds and ends</a>
+<ul>
+<li><a href="#_poking_the_admin_repo_to_force_a_compile">"poking" the admin repo to force a compile</a></li>
 </ul></li>
 <li><a href="#_design_choices">design choices</a>
 <ul>
@@ -586,6 +591,24 @@ variable in <code>~/.gitolite.rc</code> to tie <code>svnserve</code> with gitoli
 system. Assuming you installed gitolite to the same user as the one you used
 for SVN, SVN connectivity will be retained, and users will be able to use
 both SVN and git using the same SSH configuration.</p>
+
+<p><a name="_odds_and_ends"></a></p>
+
+<h3>odds and ends</h3>
+
+<p><a name="_poking_the_admin_repo_to_force_a_compile"></a></p>
+
+<h4>"poking" the admin repo to force a compile</h4>
+
+<p>Sometimes you need to force a compile, as if you pushed the gitolite-admin
+repo.  I have a git alias that looks like this:</p>
+
+<pre><code>[alias]
+    poke = !git ls-remote origin | grep -w refs/heads/poke &amp;&amp; git push origin :poke || git push origin master:poke
+</code></pre>
+
+<p>so I just run <code>git poke</code>.  This toggles between deleting and creating a dummy
+branch called "poke".  Either operation will trigger the hooks.</p>
 
 <p><a name="_design_choices"></a></p>
 
