@@ -10,12 +10,12 @@
 
 <h2>admin defined commands</h2>
 
-<p><strong>WARNING:  Use this feature only if you really really know what you're doing.
-If you come back to me saying this feature caused a problem, I will only
-laugh.  The worse the problem, the louder I will laugh.  You won't actually
-hear me laughing, but you'll feel it in your bones, trust me!</strong></p>
+<p>Summary: this document describes a mechanism to allow users controlled access
+to specific programs or scripts, without giving them full shell access.</p>
 
-<p>There may be other such <strong>WARNING</strong> sections below.  <strong>Read all of them</strong>.</p>
+<p><strong>WARNING</strong>: careless use of this feature, including inadequate review of
+allowed commands or scripts, could compromise this security and allow users to
+grant themselves full shell access, accidentally or otherwise.</p>
 
 <hr />
 
@@ -35,6 +35,7 @@ hear me laughing, but you'll feel it in your bones, trust me!</strong></p>
 <li><a href="#_enable_disable_push_access_temporarily">enable/disable push access temporarily</a></li>
 <li><a href="#_bonus_restricted_admin">(bonus) restricted admin</a></li>
 </ul></li>
+<li><a href="#_how_this_feature_came_about">how this feature came about</a></li>
 </ul>
 
 <hr />
@@ -43,36 +44,29 @@ hear me laughing, but you'll feel it in your bones, trust me!</strong></p>
 
 <h3>background</h3>
 
-<p>Gitolite was named to be short for "gitosis-lite".  Someone now wants to turn
-it into a "github-lite" :-) and even had some code to start me off thinking.</p>
+<p>Allowing users to get a shell is a no-no if you're using gitolite, but there
+are times when you want them to be able to run specific commands or custom
+scripts that you (the admin) have pre-approved to be "safe".  Here's how to
+enable such commands.</p>
 
-<p>Since my first impulse on being asked for a feature is to say no, I was
-casting about for a reason when he gave me one: he first made some noises
-about perl, then said something about rewriting it all in scheme.  Nice... I
-resisted the urge to point him to <a href="http://xkcd.com/224/">this</a>, told him that's a great
-idea and he should go for it, mentally blessing him for letting me off the
-hook on coding it ;-) <a href="http://c2.com/cgi/wiki?LazinessImpatienceHubris">Laziness</a> <em>is</em> the first virtue you know!</p>
+<p>However, as the warning at the top says, careless use could allow users to
+defeat this security and get a shell.  Every command you approve must be
+checked to be sure it cannot be compromised.</p>
 
-<p>And that was that.  For a couple of days.</p>
+<p>To help you with this, gitolite restricts ADCs arguments to only some very
+safe characters (see <code>$ADC_CMD_ARGS_PATT</code> in <code>src/gitolite_rc.pm</code>).  The code
+inside the ADC, however, is <em>your</em> responsibility.  The sample ADCs shipped
+with gitolite (in <code>contrib/adc</code>) should be OK, but an extra pair of eyes never
+hurt :-) so please review before installing them.</p>
 
-<p>Soon, though, I realised that there could be a pretty big bonus in this for
-tightly controlled setups, so I went and coded it all anyway.  See the section
-on "restricted admin" for what's really exciting about this for <em>me</em>.</p>
+<p><font color="gray"></p>
 
-<hr />
+<p>Finally, although this is a generic way to allow specific commands to be run,
+most of the examples and sample ADCs pertain to allowing users to manage their
+"own" repos.  If that's your use case, please read
+<a href="http://sitaramc.github.com/gitolite/doc/wildcard-repositories.html">doc/wildcard-repositories.mkd</a> before you continue here.</p>
 
-<p>It may be a good idea to read <a href="http://sitaramc.github.com/gitolite/doc/wildcard-repositories.html">doc/wildcard-repositories.mkd</a> before
-you continue here though, because most of the uses of this feature also need
-wildcard repos.  (This also means you must set <code>$GL_WILDREPOS</code> to "1" in the
-rc file).</p>
-
-<p>The wildcard repo feature is a way to create repositories matching a pattern
-(even if it as simple as <code>personal/CREATOR/.+</code>), and a way to specify two
-categories of permissions for each such user-created repo.</p>
-
-<p>What we want now is more than that, as you'll see in the examples below.  And
-I'm sure if you think of more uses you'll send them to me as "contrib"
-entries, right?</p>
+<p></font></p>
 
 <p><a name="_setting_it_up"></a></p>
 
@@ -151,8 +145,8 @@ as follows (don't use this exact code yet though):</p>
 </code></pre>
 
 <p>which will print two space-separated words, something like <code>_____R__W u1</code> or
-maybe <code>____@R_@W &lt;gitolite&gt;</code>.  (The former is the response for a wildcard repo
-created by user <code>u1</code>, the latter is for a non-wildcard repo)</p>
+maybe <code>____@R_@W &lt;gitolite&gt;</code>.  (The <code>u1</code> indicates the queried repo is a
+wildcard repo; for meanings of the "@" see doc/report-output.mkd)</p>
 
 <p>But that's cumbersome.  There's a bash shell function called
 <code>get_rights_and_owner</code> in <code>contrib/adc/adc.common-functions</code> that is much more
@@ -244,3 +238,29 @@ script to proceed.</p>
 
 <p>[Note that this particular use does not require <code>$GL_WILDREPOS</code> to be enabled,
 because it's not using any wildcard repos].</p>
+
+<hr />
+
+<p><a name="_how_this_feature_came_about"></a></p>
+
+<h3>how this feature came about</h3>
+
+<p><font color="gray"></p>
+
+<p>Gitolite was named to be short for "gitosis-lite".  Someone now wants to turn
+it into a "github-lite" :-) and even had some code to start me off thinking.</p>
+
+<p>Since my first impulse on being asked for a feature is to say no, I was
+casting about for a reason when he gave me one: he first made some noises
+about perl, then said something about rewriting it all in scheme.  Nice... I
+resisted the urge to point him to <a href="http://xkcd.com/224/">this</a>, told him that's a great
+idea and he should go for it, mentally blessing him for letting me off the
+hook on coding it ;-) <a href="http://c2.com/cgi/wiki?LazinessImpatienceHubris">Laziness</a> <em>is</em> the first virtue you know!</p>
+
+<p>And that was that.  For a couple of days.</p>
+
+<p>Soon, though, I realised that there could be a pretty big bonus in this for
+tightly controlled setups, so I went and coded it all anyway.  See the section
+on "restricted admin" for what's really exciting about this for <em>me</em>.</p>
+
+<p></font></p>
