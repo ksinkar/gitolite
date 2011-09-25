@@ -144,9 +144,10 @@ as follows (don't use this exact code yet though):</p>
 <pre><code>perl -I$GL_BINDIR -Mgitolite -e "cli_repo_rights('reponame')"
 </code></pre>
 
-<p>which will print two space-separated words, something like <code>_____R__W u1</code> or
-maybe <code>____@R_@W &lt;gitolite&gt;</code>.  (The <code>u1</code> indicates the queried repo is a
-wildcard repo; for meanings of the "@" see doc/report-output.mkd)</p>
+<p>which will print two space-separated words: permissions and owner.  Something
+like <code>_____R__W u1</code> or maybe <code>____@R_@W &lt;gitolite&gt;</code>.  (The <code>u1</code> indicates the
+queried repo is a wildcard repo created by user <code>u1</code>; for meanings of the "@"
+see doc/report-output.mkd)</p>
 
 <p>But that's cumbersome.  There's a bash shell function called
 <code>get_rights_and_owner</code> in <code>contrib/adc/adc.common-functions</code> that is much more
