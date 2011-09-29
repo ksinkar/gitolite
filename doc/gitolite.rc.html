@@ -92,7 +92,10 @@ in rare cases, however, so are described later.</p></li>
 <p>If you have <em>lots</em> of repos, and you're <em>not</em> using gitweb or daemon, you
 should probably set this on for efficiency.  Despite the name, it also
 blocks repo config settings.  Please read <a href="http://sitaramc.github.com/gitolite/doc/big-config.html">doc/big-config.mkd</a> for
-more details.</p></li>
+more details.</p>
+
+<p><strong>WARNING</strong>: if your description files are maintained by some other means
+than via the gitolite config file, make sure you set this variable to 1.</p></li>
 <li><p><code>$GL_NICE_VALUE</code>, boolean, default undef</p>
 
 <p>The nice value to run under.  Applicable only if it is greater than 0.
