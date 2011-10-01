@@ -1,3 +1,4 @@
+/tmp/tmp.r37AASMjEu/1 /tmp/tmp.r37AASMjEu/2 differ: byte 553, line 13
 <p><head><style>
     body        { margin-left:  40px;   font-size:  0.9em;  font-family: sans-serif; max-width: 800px; }
     h1          { background: #ffb; margin-left: -30px;   border-bottom: 5px  solid #ccc; }
@@ -257,14 +258,29 @@ sense to be forced to duplicate this information.</p>
 as argument, will return a list of groups that she is a member of.  See
 <a href="http://sitaramc.github.com/gitolite/doc/big-config.html">doc/big-config.mkd</a> for more details.</p>
 
-<p>Example: <code>$GL_GET_MEMBERSHIPS_PGM = "/usr/local/bin/expand-ldap-user-to-groups"</code></p></li>
+<p>Example: <code>$GL_GET_MEMBERSHIPS_PGM =
+"/usr/local/bin/expand-ldap-user-to-groups"</code></p></li>
 <li><p><code>$GL_HTTP_ANON_USER</code>, string, default undef</p>
 
-<p><p>Analogous to running mob branches over ssh (as described in
+<p>Analogous to running mob branches over ssh (as described in
 <a href="http://sitaramc.github.com/gitolite/doc/mob-branches.html">doc/mob-branches.mkd</a>, this variable -- combined with appropriate
 setup described in <a href="http://sitaramc.github.com/gitolite/doc/http-backend.html">doc/http-backend.mkd</a> -- lets you pretend to
 gitolite that unauthenticated HTTP users are actually authenticated as
 this user.</p></li>
+<li><p><code>$GL_REF_OR_FILENAME_PATT</code>, string</p>
+
+<p>Set of allowed characters in refnames (and, if you have <code>NAME/</code> rules, in
+filenames as well).  The default pattern is almost the same as
+<code>$REPONAME_PATT</code> with some additions.</p>
+
+<p>Although the current code is not at risk in any way even if we let in
+names containing strings like <code>$(command)</code>, and although I intend to make
+sure things stay that way, it's probably a good idea to trap weird
+filenames early.  Just to be safe.</p>
+
+<p><p>You ought to be able to loosen the pattern by adding other characters to
+it, if you really need to.  If you do, at least avoid backquotes and the
+dollar sign!</p></li>
 </ul>
 <a name="_less_used_changed_variables"></a></p>
 
