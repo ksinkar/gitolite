@@ -57,6 +57,11 @@ cards, hand out R and RW permissions to other users to collaborate, etc.</p>
 <p>This is for gitweb users only.  Gitweb setup has a variable called
 <code>$projects_list</code> (please see gitweb docs for more on this).  Set this to
 the same value as that one.</p></li>
+<li><p><code>$GITWEB_URI_ESCAPE</code>, boolean, default undef</p>
+
+<p>Apparently gitweb expects project names to be URI-escaped (but seems to
+work fine even if you don't).  If you need strict compatibility with
+gitweb, add/uncomment this variable and set it to 1.</p></li>
 <li><p><code>$REPO_UMASK</code>, octal, default <code>0077</code></p>
 
 <p>The default UMASK that gitolite uses makes all the repos and their
