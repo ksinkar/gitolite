@@ -130,6 +130,19 @@ repo testing
 
 <p>Again, you simply follow the rules top down until you hit a match for your access mode, or a deny.  Non-rewind push to master or integ is allowed by the first rule.  A rewind push to those refs does not match the first rule, drops down to the second, and is therefore denied.  Any push (rewind or non-rewind) to refs other than master or integ won't match the first two rules anyway, and the third rule allows it.</p>
 
+<p>You can also use deny rules to hide specific repos from people (or gitweb, or git-daemon, etc.), when you have otherwise allowed them access to <em>all</em> repos.  For example, a server containing open source repos may nevertheless wish to hide the special 'gitolite-admin' repo from gitweb, even though all the other repos can be made visible:</p>
+
+<pre><code>    repo gitolite-admin
+    -   =   gitweb daemon
+    [... other access rules ...]
+    config gitolite-options.deny-repo = 1
+
+    repo @all
+    R   =   gitweb daemon
+</code></pre>
+
+<p>See the documentation for more on this.</p>
+
 <p><a name="_Restricting_pushes_by_files_changed_"></a></p>
 
 <h3>Restricting pushes by files changed</h3>

@@ -211,8 +211,9 @@ invoked by <code>sshd</code>, and it knows just three things:</p>
 way of knowing what <strong>ref</strong> (branch, tag, etc) he is trying to update, even if
 it is a "write" operation.</p>
 
-<p>For a "read" operation to pass this check, the username (or <code>@all</code>) must have
-read permission (i.e., R, RW, or RW+) on at least one branch of the repo.</p>
+<p>For a "read" operation to pass this check, the username (or <code>@all</code> users) must
+have read permission (i.e., R, RW, RW+, etc.) on at least one branch of the
+repo (or <code>@all</code> repos).</p>
 
 <p>For a "write" operation, there is an additional restriction: lines specifying
 only <code>R</code> (read access) don't count.  <em>The user must have write access to

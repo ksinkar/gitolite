@@ -78,11 +78,6 @@ groups, which could be cumbersome.</p></li>
 Gerrit goes by specificity, gitolite goes by sequence.  It shouldn't
 matter; they're probably equivalent except perhaps in some far-fetched
 scenarios.</p></li>
-<li><p>One big difference is that gitolite does not process "deny" rules ("-1 no
-Access" in gerrit terms) for <em>read</em> access -- we only support those for
-write access.  Gerrit uses this to "hide a handful of projects on an
-otherwise public server"; in gitolite you'd better avoid giving <code>R = @all</code>
-in the first place :)</p></li>
 <li><p>Update 2010-10-24: as per <a href="http://colabti.org/irclogger/irclogger_log/git?date=2010-09-17#l2710">this</a> Gerrit now has <em>read</em> access
 control at the branch level -- they can afford to do that because they
 have a full jgit stack to play with.  Even then it was not easy -- they
